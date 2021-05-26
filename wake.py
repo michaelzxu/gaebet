@@ -41,7 +41,7 @@ def wake():
 		for user in db.keys():
 			if db[user] < 500:
 				db[user] += 25
-        print("25")
+        #print("25")
 				idx = 1
 	t = Thread(target=run)
 	t.start()
