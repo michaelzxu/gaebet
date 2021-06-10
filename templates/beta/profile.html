@@ -1,0 +1,32 @@
+<ion-item lines="none" color="secondary" style="--padding-top: 10px;">
+  <ion-avatar slot="start">
+    <img src="{{ user.avatar_url if user.avatar_url else url_for('static', filename='default.png') }}"/>
+  </ion-avatar>
+  <ion-label class="ion-text-wrap">
+    <p><strong>账户: </strong> {{ uid }}</p>
+    <p><strong>余额: </strong> {{ data["gae"] }} gae.</p>
+  </ion-label>
+</ion-item>
+
+<ion-fab horizontal="end" vertical="top" edge="true" style="display: flex">
+  <form action="/checkin" method="post">
+    {% if data.date== today %}
+      <ion-button slot="end" disabled type="submit">
+        <ion-icon slot="start" name="checkbox-outline"></ion-icon>
+        <ion-label>已签到</ion-label>
+      </ion-button>
+    {% else %}
+      <ion-button slot="end" type="submit">
+        <ion-icon slot="start" name="checkbox-outline"></ion-icon>
+        <ion-label>签到</ion-label>
+      </ion-button>
+    {% endif %}
+  </form>
+
+  <form action="/signout" method="get" style="margin-left: 5px;">
+    <ion-button slot="end" color="danger" type="submit">
+      <ion-icon slot="start" name="log-out-outline"></ion-icon>
+      <ion-label>登出</ion-label>
+    </ion-button>
+  </form>
+</ion-fab>

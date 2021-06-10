@@ -1,0 +1,15 @@
+<div id="{{ttype}}-{{tid}}"></div>
+<script type="text/javascript">
+  var options = {
+    width: "100%",
+    height: "400",
+    {% if ttype=='channel' %}
+    channel: "{{ tid }}",
+    {% elif ttype=='video'  %}
+    video: "{{ tid }}",
+    {% endif %}
+    parent: ["gaebet.shuodaowang.repl.co"]
+  };
+  var player = new Twitch.Player("{{ttype}}-{{tid}}", options);
+  player.setVolume(0.5);
+</script>

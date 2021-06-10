@@ -1,0 +1,89 @@
+<html>
+  <header>
+     <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"></script>
+    <script nomodule src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css"/>
+
+    <!-- JQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <!-- Twitch -->
+    <script src= "https://player.twitch.tv/js/embed/v1.js"></script>
+
+    <script src="{{ url_for('static', filename='beta/handlers.js') }}"></script>
+    <title>GAEBET | {{ user.name }}</title>
+  </header>
+  <body onload="initialize()">
+    <ion-app>
+      <ion-split-pane content-id="main">
+        <ion-menu content-id="main" side="start" menu-id="left">
+          <ion-header>
+            <ion-toolbar color="primary">
+              <ion-title>盘口列表</ion-title>
+            </ion-toolbar>
+          </ion-header>
+          <ion-content color="light" id="betsContainer" #betsContainer></ion-content>
+          <ion-footer>
+            {% include "beta/profile.html" %}
+          </ion-footer>
+        </ion-menu>
+
+        <ion-menu content-id="main" side="end" menu-id="right">
+          <ion-content>
+            <ion-tabs>
+              <ion-tab tab="tab-board">
+                <ion-header>
+                  <ion-toolbar color="primary">
+                    <ion-title>GAE排行榜</ion-title>
+                  </ion-toolbar>
+                </ion-header>
+                <ion-content scroll-x="true" color="light" class="ion-padding" id="boardContainer" #boardContainer></ion-content>
+              </ion-tab>
+              <ion-tab tab="tab-notifications">
+                <ion-header>
+                  <ion-toolbar color="primary">
+                    <ion-title>最新消息</ion-title>
+                  </ion-toolbar>
+                </ion-header>
+                {% include "beta/notifications.html" %}
+              </ion-tab>
+              <ion-tab-bar slot="bottom" color="secondary">
+                <ion-tab-button tab="tab-board">
+                  <ion-icon name="trophy-outline"></ion-icon>
+                  <ion-label>排行榜</ion-label>
+                </ion-tab-button>
+                <ion-tab-button tab="tab-notifications">
+                  <ion-icon name="notifications-outline"></ion-icon>
+                  <ion-label>最新消息</ion-label>
+                </ion-tab-button>
+              </ion-tab-bar>
+            </ion-tabs>
+          </ion-content>
+        </ion-menu>
+        <div class="ion-page" id="main">
+          {% include "beta/nav-bar.html" %}
+          <ion-content>
+            <ion-grid>
+              <ion-row>
+                <ion-col size="12" id="videoContainer" #videoContainer></ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-content>
+          <ion-footer>
+            {% include "beta/book.html" %}
+          </ion-footer>
+        </div>
+      </ion-split-pane>
+    </ion-app>
+  </body>
+</html>

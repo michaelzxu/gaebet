@@ -1,0 +1,58 @@
+<div class="accordion accordion mb-3" id="board">
+  <div class="accordion-item">
+    <div class="accordion-header" id="headingTwo">
+      <button class="accordion-button pl-2 pr-2 pt-1 pb-1" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+        <h5 class="my-1">GAE排行榜</h5>
+      </button>
+    </div>
+    <div id="collapseTwo" class="accordion-collapse collapse show" aria-labelledby="headingTwo" data-bs-parent="#board">
+      <div class="accordion-body" style="max-height: calc(50vh - 200px); overflow-y: auto">
+        <table class="table table-sm">
+          <thead>
+            <tr>
+              <th scope="col">排名</th>
+              <th scope="col">玩家</th>
+              <th class="text-center" scope="col">GAE</th>
+              <th class="text-center" scope="col">被淦次</th>
+              <th class="text-center" scope="col">(盈亏)</th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for t in top %}
+            <tr valign="middle">
+              <td>#{{loop.index}}</td>
+              <td>{{ t[0][:-5] }}</td>
+              <td class="text-center">{{ t[1] }}</td>
+              <td class="text-center">
+                {% if t[2] %}{{ t[2] }}{% endif %}
+              </td>
+              <td class="text-center">
+              {% if t[3] %}({{ t[3] }}){% endif %}
+              </td>
+              <td>
+                {% if uid != t[0] %}
+                  <form action="/send" method="post">
+                    <input type="hidden" name="from" value="{{ uid }}"/>
+                    <input type="hidden" name="to" value="{{ t[0] }}" />
+                    <button class="btn dropdown-toggle btn-sm" type="button" id="reward{{t[0]}}" data-bs-toggle="dropdown" aria-expanded="false" >
+                      打赏
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="reward{{t[0]}}">
+                      <button class="dropdown-item btn-block bg-danger text-white" type="submit" name="unit" value='fuck'>淦TA</button>
+                      <button class="dropdown-item btn-block" type="submit" name="unit" value='bmw'>宝马(50GAE)</button>
+                      <button class="dropdown-item btn-block" type="submit" name="unit" value='airplane'>飞机(100GAE)</button>
+                      <button class="dropdown-item btn-block" type="submit" name="unit" value='rocket'>火箭(500GAE)</button>
+                      <button class="dropdown-item btn-block" type="submit" name="unit" value='spaceship'>星舰(1000GAE)</button>
+                    </div>
+                  </form>
+                  {% endif %}
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,6 @@
+{% if request.args.get("message") %}
+  <div class="alert alert-{{ request.args.get("color", 'primary') }} alert-dismissible fade show m-0" style="flex: auto" role="alert">
+    {{ request.args.get("message") }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+{% endif %}

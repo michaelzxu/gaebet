@@ -1,0 +1,10 @@
+<ion-content color="light" #notifcationsContainer id="notificationsContainer">
+  {% for n in notifications %}
+    <ion-item lines="full" color="{{ {0: 'light', 1: '', 2: ''}[n.level] }}">
+      <ion-chip slot="start" color="{{ {'white': n.color, 'info': 'secondary'}.get(n.bg, n.bg) }}">{{ n["title"] }}</ion-chip>
+      <ion-label class="text-wrap">
+        {{ n["message"] }}
+      </ion-label>
+    </ion-item>
+  {% endfor %}
+</ion-content>

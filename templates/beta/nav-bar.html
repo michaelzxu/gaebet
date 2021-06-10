@@ -1,0 +1,27 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      <img src="{{ url_for('static', filename='logo.png') }}" style="max-height: 40px;" />
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-fab horizontal="start" vertical="bottom" style="display: flex">
+  <ion-menu-toggle auto-hide="true" menu="left">
+    <ion-fab-button>
+      <ion-icon name="list-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-menu-toggle>
+
+  <ion-menu-toggle auto-hide="true" menu="right">
+    <ion-fab-button style="margin-left: 10px">
+      <ion-icon name="trophy-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-menu-toggle>
+</ion-fab>
+
+<ion-fab horizontal="end" vertical="bottom">
+  <ion-fab-button size="large" shape="round" color="tertiary" onclick="presentBook()">
+    <ion-label>开盘</ion-label>
+  </ion-fab-button>
+</ion-fab>

@@ -1,0 +1,119 @@
+{% if books.keys().__len__() == 0 %}
+<div class="card mb-3" style="width: 100%">
+  <div class="card-body">
+    <h6 class="card-title" style="text-align: center">
+      没有庄家开盘！
+    </h6>
+  </div>
+</div>
+{% else %}
+  {% for bid, book in books.items() %}
+    <form action="/odd" method="post" id="oddForm{{ bid }}"></form>
+    <form action="/go" method="post" id="goForm{{ bid }}"></form>
+    <div class="card mb-3" style="width: 100%" id="betid{{ bid }}">
+      <div class="card-header {{ 'text-white' if book.status != 'ended' }} {{ 'bg-success' if book.status == 'active' }} {{ 'bg-secondary' if book.status == 'close' }}">
+        <div class="d-flex align-items-center justify-content-between">
+          <!-- <h3>[{{ book.status.upper() }}] betID - {{ bid }}</h3> -->
+          <h6>庄家{{ book.bm[:-5] }}({{ book.bgae }})</h6>
+          {% if book.bm == uid %}
+            {% if book.status != 'ended' %}
+              <form action="/result" method="post">
+                <input type="hidden" name="bid" value="{{ bid }}" />
+                <button class="btn btn-info dropdown-toggle btn-sm" type="button" id="dropdownMenuButton{{ bid }}" data-bs-toggle="dropdown" aria-expanded="false">
+                  结算
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton{{ bid }}">
+                  <button class="dropdown-item" type="submit" name="result" value=1>{{ book.team[0] }}获胜</button>
+                  <button class="dropdown-item" type="submit" name="result" value=2>{{ book.team[1] }}获胜</button>
+                  <button class="dropdown-item" type="submit" name="result" value=3>平局/流局</button>
+                </div>
+              </form>
+            {% else %}
+              <form action="/delete" method="post">
+                <input type="hidden" name="bid" value="{{ bid }}" />
+                <h6>
+                  <button type="submit" class="btn-close float-right" aria-label="Close"></button>
+                </h6>
+              </form>
+            {% endif %}
+          {% endif %}
+        </div>
+      </div>
+      <div class="card-body p-0">
+        {% if book.status == 'ended' %}
+          <div class="alert alert-primary fade show ma-2" role="alert">
+            {{ book.result }}
+          </div>
+        {% endif %}
+        <table class="table mr-2 ml-2" style="text-align: center">
+          <thead>
+            {% if book.bm != uid and book.status != 'ended' %}
+              <tr class="d-flex p-1" valign="middle">
+                <th class="col-5">
+                  <input type="hidden" name="bid" value="{{ bid }}" form="goForm{{bid}}" />
+                  <button class="btn btn-primary btn-sm" style="max-width: 95%;" {% if book.status == 'close' %} disabled {% endif %} type="submit" name="team" value="0" form="goForm{{bid}}">压{{ book.team[0] }}</button>
+                </th>
+                <th  class="col-2">
+                  <input class="input-sm" style="max-width: 100%; text-align:center"  required type="number" placeholder="押注金额" {% if book.status == 'close' %} disabled {% endif %} min="1" name="gae" form="goForm{{bid}}" />
+                </th>
+                <th  class="col-5">
+                  <button class="btn btn-danger btn-sm" style="max-width: 95%;" {% if book.status == 'close' %} disabled {% endif %} type="submit" name="team" value="1" form="goForm{{bid}}">压{{ book.team[1] }}</button>
+                </th>
+              </tr>
+            {% else %}
+              <tr class="d-flex" valign="middle">
+                  <th scope="col" class="col-5"><button class="btn btn-primary btn-sm" style="max-width: 95%;"  disabled type="submit" name="team" value="0" form="goForm{{bid}}">压{{ book.team[0] }}</button></th>
+                  <th scope="col" class="col-2">{{ 'vs. ' if status != 'ended' else book.result }}</th>
+                  <th scope="col" class="col-5"><button class="btn btn-danger btn-sm" style="max-width: 95%;" disabled type="submit" name="team" value="0" form="goForm{{bid}}">压{{ book.team[1] }}</button></th>
+              </tr>
+            {% endif %}
+          </thead>
+          <tbody>
+            {% if book.bm != uid or book.status == 'ended' %}
+              <tr class="d-flex" valign="middle">
+                <td class="col-5">{{ book.odd[0] }}</td>
+                <td class="col-2"></td>
+                <td class="col-5">{{ book.odd[1] }}</td>
+              </tr>
+              <tr class="d-flex" valign="middle">
+                <td class="col-5">{{ book.lm[0] }}</td>
+                <td class="col-2"></td>
+                <td  class="col-5">{{ book.lm[1] }}</td>
+              </tr>
+            {% else %}
+              <tr class="d-flex" valign="middle">
+                <td  class="col-5">
+                  <input type="hidden" name="bid" value="{{ bid }}" form="oddForm{{ bid }}" />
+                  <input class="text-center" required type="number" min="0.01" max="9.9" step="0.01" value="{{ book.odd[0] }}" name="odd1" form="oddForm{{ bid }}" />
+                </td>
+                <td  class="col-2">
+                    <button class="btn btn-primary  btn-sm" type="submit" form="oddForm{{ bid }}">改赔率</button>
+                </td>
+                <td  class="col-5">
+                  <input class="text-center" required type="number" min="0.01" max="9.9" step="0.01" value="{{ book.odd[1] }}" name="odd2" form="oddForm{{ bid }}" />
+                </td>
+              </tr>
+              <tr class="d-flex" valign="middle">
+                <td  class="col-5">{{ book.lm[0] }}</td>
+                <td  class="col-2">
+                  <form action="/toggle" method="post">
+                    <input type="hidden" name="bid" value="{{ bid }}" />
+                    <input type="hidden" name="uid" value="{{ uid }}" />
+                    <button class="btn {{ 'btn-warning' if book.status == 'active' else 'btn-success' }}  btn-sm" type="submit" name="current_status" value="{{ book.status }}">
+                      {% if book.status=='active' %}
+                        暂停押注
+                      {% else %}
+                        开放押注
+                      {% endif %}
+                    </button>
+                  </form>
+                </td>
+                <td  class="col-5">{{ book.lm[1] }}</td>
+              </tr>
+            {% endif %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  {% endfor %}
+{% endif %}

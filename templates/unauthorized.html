@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+
+    <!-- JavaScript Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+
+    <title>gaebet | Sign In</title>
+  </head>
+  <body style="padding: 40px 15px; height: 100%; width: 100%; display: flex; justify-content: center; align-items: center;">
+    <div class="container">
+      <div class="card">
+        <div class="card-body" style="text-justfy: center">
+          <p style="text-align:center">欢迎来到GAEBET！请点击下方按钮通过discord登录系统！</p>
+          <a href="/auth">
+            <img src="{{ url_for('static', filename='discord-logo-color.png') }}" style="max-height: 50px; display: block; margin: 30px auto;" />
+          </a>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
